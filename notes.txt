@@ -48,3 +48,8 @@ Assumptions:
         minification
         uglification
     4. Testing is taken care by another team
+
+
+Public
+    this
+    prototype 
