@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VDOM Demo</title>
+    <script src="react.development.js"></script>
+    <script src="react-dom.development.js"></script>
+    <script>
+        var counter = 0;
+        function onBtnRenderClick(){
+            counter++
+
+            //Virtual DOM
+            var rootDiv = React.createElement('div', null, 
+                React.createElement('h1', null, 'React.js!'),
+                React.createElement('hr'),
+                React.createElement('div', null, 
+                    React.createElement('span', null, 'Counter : '),
+                    React.createElement('span', null, counter)
+                ),
+                React.createElement('div', null, 
+                    React.createElement('h3', null, 'Introduction'),
+                    React.createElement('p', null, 'Tempor ad nisi esse aliquip nulla. Ullamco in cupidatat magna incididunt magna occaecat eiusmod in culpa eiusmod voluptate quis commodo. Et commodo occaecat aliquip ipsum commodo incididunt pariatur cillum et excepteur excepteur. Anim aliqua culpa cupidatat laboris occaecat aliquip. Ullamco deserunt esse exercitation elit ad ea est esse pariatur ullamco est veniam. Anim in consequat eiusmod duis. Fugiat tempor veniam cillum ad duis amet dolor.Qui incididunt nisi ullamco sint minim commodo eu irure tempor anim. Ad eu enim deserunt velit enim nisi cillum id tempor et. Sit Lorem ipsum non consectetur in incididunt voluptate magna aute laborum veniam dolor amet.'),
+                    React.createElement('p', null, 'Nulla irure proident ipsum ea reprehenderit veniam nulla in laboris anim cillum nostrud ullamco dolor. Ipsum aute id do et. Officia deserunt cillum occaecat dolor dolor voluptate adipisicing ut. Ullamco eu nulla nulla mollit sunt eiusmod est do id eu officia dolore. Magna nulla ullamco id do. Officia culpa esse ex anim aliquip reprehenderit sint aliqua commodo ipsum enim sunt sit amet.Aute dolor quis et cupidatat fugiat nisi dolor officia sunt do esse est. Exercitation et quis officia consequat velit Lorem tempor amet commodo deserunt duis nostrud occaecat ullamco. Exercitation ipsum laboris ex velit irure.'),
+                    React.createElement('p', null, 'Sint non mollit laboris nisi sint voluptate amet eiusmod veniam. Adipisicing eu cupidatat ut dolor. Qui reprehenderit magna tempor aute exercitation laborum commodo deserunt est ut sunt ullamco ut irure. Qui laborum velit fugiat esse magna enim velit elit cillum cillum minim dolore aliquip. Velit magna eiusmod et sit Lorem laboris. Aliquip ullamco reprehenderit voluptate qui consequat aliquip dolore ex laborum. Velit sint ipsum consectetur et ullamco cupidatat reprehenderit deserunt nulla nostrud proident cillum aliqua aliquip.Deserunt exercitation sint incididunt ea aliqua irure deserunt mollit est voluptate nulla minim. Pariatur ipsum eiusmod et ea. Labore nisi officia aliqua id exercitation amet officia adipisicing aliquip commodo labore.'),
+                ),
+                React.createElement('div', null, 
+                    React.createElement('h3', null, 'Advantages'),
+                    React.createElement('ul', null, 
+                        React.createElement('li', null, 'Declarative'),
+                        React.createElement('li', null, 'Efficient'),
+                    )
+                )
+            )
+            ReactDOM.render(rootDiv, document.getElementById('root'))
+        }
+        function onDocumentLoad(){
+            var btnRender = document.getElementById('btnRender');
+            btnRender.addEventListener('click', onBtnRenderClick)
+        }
+        window.addEventListener('load', onDocumentLoad)
+
+    </script>
+</head>
+<body>
+    <button id="btnRender">Render</button>
+    <!-- <div>
+        <span>Counter :</span>
+        <span id="spanCounter"></span>
+    </div> -->
+    <div id="root"></div>
+</body>
+</html>
