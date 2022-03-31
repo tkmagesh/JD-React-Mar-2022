@@ -53,3 +53,12 @@ Assumptions:
 Public
     this
     prototype 
+
+Day-1 Study
+    http://es6-features.org/
+    Array Methods
+        forEach
+        filter
+        map
+        reduce
+
