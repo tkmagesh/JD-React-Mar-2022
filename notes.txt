@@ -10,3 +10,31 @@ Schedule:
 Methodolgy:
     No powerpoints
     100% Hands on
+    At least 50% of the participants of the participants should have completed the assignments
+
+About You
+    Name
+    Experience
+    Primary Skillset
+    Experience in React (if any)
+
+RIA (Rich Internet Applications)
+
+
+Patterns Of Enterprise Applications Architecture (Martin Fowler)
+
+HTML5 (Browser can behave like a Virtual OS)
+    1. Client side data persistance
+        LocalStorage
+        SessionStorage
+        IndexedDB
+    2. Interact with other peripheral devices (webcam, microphone, etc)
+        WebRTC
+    3. Real time updates from server
+        Server Sent Events
+        Web Sockets
+    4. Multithreading
+        Web Workers
+    5. Offline application access
+        Offline Application Cache
+        Service Workers
