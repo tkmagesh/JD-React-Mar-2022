@@ -38,3 +38,13 @@ HTML5 (Browser can behave like a Virtual OS)
     5. Offline application access
         Offline Application Cache
         Service Workers
+
+Salary Calculator
+Assumptions:
+    1. No validations are needed 
+    2. The application implementation meets 100% of user expectations
+    3. Another team is responsible for preparing the application for deployment
+        Refactoring the js code to separate JS files
+        minification
+        uglification
+    4. Testing is taken care by another team
