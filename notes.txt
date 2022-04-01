@@ -93,4 +93,6 @@ HTML vs JSX
         Use "htmlFor" in place of "for"
         Use "className" in place of "class"
 
-    
+
+Day-2 Assignment
+    Implement SalaryCalculator in React

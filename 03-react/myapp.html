@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My App</title>
+    <script src="babel.min.js"></script>
+    <script src="react.development.js"></script>
+    <script src="react-dom.development.js"></script>
+    <script type="text/babel">
+        class Greeter extends React.Component {
+
+                state = {
+                    message: '[Default greet message]',
+                    userName: 'Magesh'
+                };
+
+                onTxtUserNameChange = (evt) => {
+                    this.setState({
+                        userName: evt.target.value
+                    })
+                }
+
+                onBtnGreetClick = (evt) => {
+                    /* 
+                    const userName = this.state.userName;
+                    const msg = `Hi ${userName}, Have a nice day!` 
+                    */
+
+                    /* 
+                    const { userName } = this.state;
+                    const msg = `Hi ${userName}, Have a nice day!`  
+                    */
+
+                    /* 
+                    const uName = this.state.userName;
+                    const msg = `Hi ${uName}, Have a nice day!`  
+                    */
+
+                    /* 
+                    const { userName : uName } = this.state;
+                    const msg = `Hi ${uName}, Have a nice day!`  
+                    */
+
+                    const msg = `Hi ${this.state.userName}, Have a nice day!`
+
+                    this.setState({
+                        message: msg
+                    })
+                };
+
+                render() {
+                    return (
+                        <div>
+                            <h1>Greeter</h1>
+                            <hr />
+                            <label htmlFor="txtUserName">User Name :</label>
+                            <input type="text" name="" id="txtUserName" onChange={this.onTxtUserNameChange} />
+                            <button onClick={this.onBtnGreetClick}>Greet</button>
+                            <div className="greetMessage">{this.state.message}</div>
+                        </div>
+                    )
+                }
+            }
+        class Calculator1 extends React.Component {
+            state = {
+                n1: 0,
+                n2: 0,
+                result: 0
+            }
+            render() {
+                const { n1, n2, result } = this.state;
+                return (
+                    <div>
+                        <h1>Calculator-1</h1>
+                        <hr />
+                        <input type="number" onChange={evt => this.setState({ n1: parseInt(evt.target.value) })} />
+                        <input type="number" onChange={evt => this.setState({ n2: parseInt(evt.target.value) })} />
+                        <br />
+                        <button onClick={() => this.setState({ result: n1 + n2 })}>Add</button>
+                        <button onClick={() => this.setState({ result: n1 - n2 })}>Subtract</button>
+                        <button onClick={() => this.setState({ result: n1 * n2 })}>Multiply</button>
+                        <button onClick={() => this.setState({ result: n1 / n2 })}>Divide</button>
+                        <div>{result}</div>
+                    </div>
+                )
+            }
+        }
+        class Calculator2 extends React.Component {
+            state = {
+                n1: 0,
+                n2: 0,
+                operation: '',
+                result: 0
+            }
+            onBtnCalculateClick = () => {
+                const { operation, n1, n2 } = this.state;
+                switch (operation) {
+                    case 'add':
+                        this.setState({ result: n1 + n2 })
+                        break;
+                    case 'subtract':
+                        this.setState({ result: n1 - n2 })
+                        break;
+                    case 'multiply':
+                        this.setState({ result: n1 * n2 })
+                        break;
+                    case 'divide':
+                        this.setState({ result: n1 / n2 })
+                        break;
+                    default:
+                        break;
+                }
+            }
+            render() {
+                const { n1, n2, result } = this.state;
+                return (
+                    <div>
+                        <h1>Calculator-2</h1>
+                        <hr />
+                        <input type="number" onChange={evt => this.setState({ n1: parseInt(evt.target.value) })} />
+                        <select onChange={evt => this.setState({ operation: evt.target.value })}>
+                            <option value="">---Select---</option>
+                            <option value="add">Add</option>
+                            <option value="subtract">Subtract</option>
+                            <option value="multiply">Multiply</option>
+                            <option value="divide">Divide</option>
+                        </select>
+                        <input type="number" onChange={evt => this.setState({ n2: parseInt(evt.target.value) })} />
+                        <button onClick={this.onBtnCalculateClick}>Calculate</button>
+                        <div>{result}</div>
+                    </div>
+                )
+            }
+        }
+        class Products extends React.Component {
+            state = {
+                productNames: [],
+                newProductName: ''
+            };
+            onBtnAddNewClick = () => {
+                const { productNames, newProductName } = this.state;
+                /* 
+                productNames.push(newProductName)
+                this.setState({ productNames, productNames }); 
+                */
+                const updatedProductNames = [...productNames, newProductName];
+                this.setState({
+                    productNames: updatedProductNames,
+                    newProductName: ''
+                })
+            }
+            render() {
+                const { productNames, newProductName } = this.state;
+                const productItems = productNames.map((productName, idx) => (<li key={idx}>{productName}</li>))
+                return (
+                    <div>
+                        <h1>Products</h1>
+                        <hr />
+                        <label htmlFor="">Product Name : </label>
+                        <input type="text" value={newProductName} onChange={evt => this.setState({ newProductName: evt.target.value })} />
+                        <button onClick={this.onBtnAddNewClick}>Add New</button>
+                        <ul>
+                            {productItems}
+                        </ul>
+                    </div>
+                )
+            }
+        }
+        class MyApp extends React.Component{
+            state = {
+                userChoice : ''
+            };
+
+            render(){
+                let outlet = null;
+                const { userChoice } = this.state;
+                switch (userChoice) {
+                    case 'Greeter':
+                        outlet = (<Greeter/>)
+                        break;
+                    case 'Calculator-1':
+                        outlet = (<Calculator1 />)
+                        break;
+                    case 'Calculator-2':
+                        outlet = (<Calculator2 />)
+                        break;
+                    case 'Products':
+                        outlet = (<Products />)
+                        break;
+                    default:
+                        break;
+                }
+                return(
+                    <div>
+                        <h1>My App</h1>
+                        <div>
+                            <button onClick={ () => this.setState({userChoice : 'Greeter'})}>Greeter</button>
+                            <button onClick={ () => this.setState({userChoice : 'Calculator-1'})}>Calculator-1</button>
+                            <button onClick={ () => this.setState({userChoice : 'Calculator-2'})}>Calculator-2</button>
+                            <button onClick={ () => this.setState({userChoice : 'Products'})}>Products</button>
+                        </div>
+                        {outlet}
+                    </div>
+                )
+            }
+        }
+
+        ReactDOM.render(<MyApp/>, document.getElementById('root'))
+    </script>
+</head>
+<body>
+    <div id="root">
+
+    </div>
+</body>
+</html>
