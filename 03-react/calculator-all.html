@@ -26,7 +26,7 @@
             render(){
                 const { n1, n2, result } = this.state;
                 //const resultEl = result >= 0 ? (<div className="positive">{result}</div>) : (<div className="negative">{result}</div>)
-                const resultEl = (<div className={ result >= 0 ? "positive" : "negative"}>{result}</div>)
+                
                 return(
                     <div>
                         <h1>Calculator-1</h1>
@@ -38,7 +38,9 @@
                         <button onClick={ () => this.setState({ result : n1 - n2})}>Subtract</button>
                         <button onClick={ () => this.setState({ result : n1 * n2})}>Multiply</button>
                         <button onClick={ () => this.setState({ result : n1 / n2})}>Divide</button>
-                        { resultEl }
+                        {/* { resultEl} */}
+                        { result == 0 ? null : <CalculatorResult data={result}/> }
+                        
                     </div>
                 )
             }
@@ -86,14 +88,21 @@
                             </select>
                             <input type="number" onChange={evt => this.setState({ n2: parseInt(evt.target.value) })} />
                             <button onClick={this.onBtnCalculateClick}>Calculate</button>
-                            <div>{result}</div>
+                            {/* <div>{result}</div> */}
+                            <CalculatorResult data={result} />
                         </div>
                     )
                 }
-
-
             }
 
+        class CalculatorResult extends React.Component{
+            render(){
+                const { data } = this.props;
+                return (
+                    <div className={data >= 0 ? "positive" : "negative"}>{data}</div>
+                );
+            }
+        }
         ReactDOM.render(
             <div>
                 <Calculator1/>
