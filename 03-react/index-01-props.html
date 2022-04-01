@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greeter</title>
+    <script src="react.development.js"></script>
+    <script src="react-dom.development.js"></script>
+    <script src="babel.min.js"></script>
+    <style>
+        .greetMessage{
+            font-size: 18pt;
+        }
+    </style>
+    <script type="text/babel">
+        class Greeter extends React.Component{
+
+            state = {
+                message : '[Default greet message]',
+                userName : 'Magesh'
+            };
+
+            onTxtUserNameChange = (evt) => {
+                this.setState({
+                    userName : evt.target.value
+                })
+            }
+
+            onBtnGreetClick = (evt) => {
+                const { greetTemplate } = this.props;
+                const msg = `Hi ${this.state.userName}, ${greetTemplate}`
+                
+                this.setState({
+                    message : msg
+                })
+            };
+
+            render(){                
+                return(
+                    <div>
+                        <h1>Greeter</h1>
+                        <hr/>
+                        <label htmlFor="txtUserName">User Name :</label>
+                        <input type="text" name="" id="txtUserName" onChange={this.onTxtUserNameChange}/>
+                        <button onClick={this.onBtnGreetClick}>Greet</button>
+                        <div className="greetMessage">{this.state.message}</div>
+                    </div>
+                )
+            }
+        }
+
+        ReactDOM.render( 
+            <div>
+                <Greeter greetTemplate="Have a good day!" />
+                <Greeter greetTemplate="Have a nice day!" />
+            </div>
+        , document.getElementById('root'))
+    </script>
+</head>
+<body>
+    <div id="root">
+        
+    </div>
+</body>
+</html>
