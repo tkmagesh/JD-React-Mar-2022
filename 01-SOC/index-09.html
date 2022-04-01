@@ -25,7 +25,7 @@
     <script>
         //state & behavior 
         //observable
-        function SalaryCalculatorModel(){
+        /* function SalaryCalculatorModel(){
             //state
             var _data = {
                 basic : 0,
@@ -62,7 +62,48 @@
             var gross = this.get('basic') + this.get('hra') + this.get('da'),
                 net = gross * ((100-this.get('tax'))/100);
             this.set('salary', net);
+        } */
+
+        class EventEmitter {
+            _subscribers = {};
+
+            subscribe(attrName, subscriptionFn){
+                this._subscribers[attrName] = this._subscribers[attrName] || []
+                this._subscribers[attrName].push(subscriptionFn)
+            }
+
+            emitChange(attrName){
+                for (let subscriptionFn of this._subscribers[attrName]){
+                    subscriptionFn()
+                }
+            }
         }
+
+        class SalaryCalculatorModel extends EventEmitter {
+                _data = {
+                    basic: 0,
+                    hra: 0,
+                    da: 0,
+                    tax: 0,
+                    salary: 0
+                };
+
+                get(attrName) {
+                    return this._data[attrName];
+                }
+
+                set(attrName, val) {
+                    if (this._data[attrName] === val) return
+                    this._data[attrName] = val;
+                    this.emitChange(attrName);
+                }
+
+                calculate() {
+                    var gross = this.get('basic') + this.get('hra') + this.get('da'),
+                        net = gross * ((100 - this.get('tax')) / 100);
+                    this.set('salary', net);
+                }
+            }
 
         
         //View
