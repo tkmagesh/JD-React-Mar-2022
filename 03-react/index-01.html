@@ -17,12 +17,41 @@
         class Greeter extends React.Component{
 
             state = {
-                message : '[Default greet message]'
+                message : '[Default greet message]',
+                userName : 'Magesh'
+            };
+
+            onTxtUserNameChange = (evt) => {
+                this.setState({
+                    userName : evt.target.value
+                })
             }
 
-            onBtnGreetClick = () => {
+            onBtnGreetClick = (evt) => {
+                /* 
+                const userName = this.state.userName;
+                const msg = `Hi ${userName}, Have a nice day!` 
+                */
+
+                /* 
+                const { userName } = this.state;
+                const msg = `Hi ${userName}, Have a nice day!`  
+                */
+
+                /* 
+                const uName = this.state.userName;
+                const msg = `Hi ${uName}, Have a nice day!`  
+                */
+
+                /* 
+                const { userName : uName } = this.state;
+                const msg = `Hi ${uName}, Have a nice day!`  
+                */
+                
+                const msg = `Hi ${this.state.userName}, Have a nice day!`
+                
                 this.setState({
-                    message : 'A new greet message'
+                    message : msg
                 })
             };
 
@@ -32,7 +61,7 @@
                         <h1>Greeter</h1>
                         <hr/>
                         <label htmlFor="txtUserName">User Name :</label>
-                        <input type="text" name="" id="txtUserName"/>
+                        <input type="text" name="" id="txtUserName" onChange={this.onTxtUserNameChange}/>
                         <button onClick={this.onBtnGreetClick}>Greet</button>
                         <div className="greetMessage">{this.state.message}</div>
                     </div>
@@ -40,7 +69,7 @@
             }
         }
 
-        ReactDOM.render(React.createElement(Greeter), document.getElementById('root'))
+        ReactDOM.render( <Greeter/>, document.getElementById('root'))
     </script>
 </head>
 <body>
