@@ -83,3 +83,14 @@ ES6 (ECMAScript 6 / ES2015 / ESNext )
 Code in ES6 -> transpiler (Babel) -> ES5
 
 
+HTML vs JSX
+    HTML
+        Open tags without close tags are allowed
+        "for" attribute is allowed
+        "class" attribute is allowed
+    JSX
+        Every open tag must have the corresponding close tag
+        Use "htmlFor" in place of "for"
+        Use "className" in place of "class"
+
+    
