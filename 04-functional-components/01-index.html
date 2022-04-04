@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Functional Compnents</title>
+    <script src="babel.min.js"></script>
+    <script src="react.development.js"></script>
+    <script src="react-dom.development.js"></script>
+    <script type="text/babel">
+
+        const Greeter = () => {
+            /* 
+            const stateArr = React.useState('[Default greet message]')
+            const message = stateArr[0]
+            const setMessage = stateArr[1] 
+            */
+            const [message, setMessage] = React.useState('[Default greet message')
+            const [userName, setUserName] = React.useState('');
+
+            const onBtnGreetClick = () => {
+                const newMsg = `Hi ${userName}, Have a nice day!`
+                setMessage(newMsg)
+            };
+
+            return (
+                <div>
+                    <h1>Greeter</h1>
+                    <hr />
+                    <label htmlFor="txtUserName">User Name :</label>
+                    <input type="text" onChange={ evt => setUserName(evt.target.value)} />
+                    <button onClick={onBtnGreetClick} >Greet</button>
+                    <div className="greetMessage">{message}</div>
+                </div>
+            )
+        }
+
+        ReactDOM.render(<Greeter/>, document.getElementById('root'))
+    </script>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+</html>
