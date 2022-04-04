@@ -112,3 +112,14 @@ Hooks
         useImperativeHandle
         useLayoutEffect
         useDebugValue
+
+State (Data)
+    1. Application State
+        * Any data that supports the "core appliction logic" of the application
+        * It is highly probable that this data is needed "through out" the application
+        * DO NOT keep this data in the component itself
+        * If this data is maintained in the component, changes to this data will be very difficult to reflect in other parts of the application
+    2. UI State
+        * Any data that supports the "presentation" needs of the application
+        * It is highly UNLIKELY that this data is needed in other parts of the application
+        * Feel free to maintain this data in the component itself (either using setState / useState )
