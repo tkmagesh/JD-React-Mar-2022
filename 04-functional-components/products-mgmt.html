@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+    <script src="babel.min.js"></script>
+    <script src="react.development.js"></script>
+    <script src="react-dom.development.js"></script>
+    <script type="text/babel">
+        
+        const Products = () => {
+            const [productNames, setProductNames] = React.useState([]);
+            const [newProductName, setNewProductName] = React.useState('');
+            const txtNewProductNameRef = React.useRef();
+
+            const onBtnAddNewClick = () => {
+                setProductNames([...productNames, newProductName]);
+                setNewProductName('');
+                /* DO NOT DO THE FOLLOWING AS We will be bypassing the VDOM and manipulate the actual DOM */
+                //txtNewProductNameRef.current.value = ''
+                txtNewProductNameRef.current.focus()
+            };
+            const productItems = productNames.map((productName, idx) => (<li key={idx}>{productName}</li>))
+            return (
+                <div>
+                    <h1>Products</h1>
+                    <hr />
+                    <label htmlFor="">Product Name : </label>
+                    <input 
+                        type="text" 
+                        value={newProductName} 
+                        onChange={evt => setNewProductName(evt.target.value )} 
+                        ref={txtNewProductNameRef}
+                    />
+                    <button onClick={onBtnAddNewClick}>Add New</button>
+                    <ul>
+                        {productItems}
+                    </ul>
+                </div>
+            )
+        } 
+        ReactDOM.render(<Products />, document.getElementById('root'))
+
+    </script>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+</html>

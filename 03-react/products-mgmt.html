@@ -14,6 +14,8 @@
                 productNames : [],
                 newProductName : ''
             };
+            txtNewProductNameRef = React.createRef();
+
             onBtnAddNewClick = () => {
                 const { productNames, newProductName } = this.state;
                 /* 
@@ -25,6 +27,7 @@
                     productNames : updatedProductNames,
                     newProductName : ''
                 })
+                this.txtNewProductNameRef.current.focus()
             }
             render(){
                 const { productNames, newProductName } = this.state;
@@ -34,7 +37,11 @@
                         <h1>Products</h1>
                         <hr />
                         <label htmlFor="">Product Name : </label>
-                        <input type="text" value={newProductName} onChange={ evt => this.setState({newProductName : evt.target.value}) } />
+                        <input 
+                            ref={this.txtNewProductNameRef}
+                            type="text" value={newProductName} 
+                            onChange={ evt => this.setState({newProductName : evt.target.value}) } 
+                        />
                         <button onClick={this.onBtnAddNewClick}>Add New</button>
                         <ul>
                             {productItems}
