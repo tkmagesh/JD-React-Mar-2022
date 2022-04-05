@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+    <script src="babel.min.js"></script>
+    <script src="react.development.js"></script>
+    <script src="react-dom.development.js"></script>
+    <script src="redux.js"></script>
+    <script type="text/babel">
+
+        function productsReducer(currentState = [], action){
+            /* IMPORTANT : DO NOT update the current state, instead create a new object and return */
+            if (action.type === 'PRODUCT_ADD'){
+                const newProductName = action.payload;
+                const newState = [...currentState, newProductName]
+                return newState;
+            }
+            if(action.type === 'PRODUCT_REMOVE'){
+                const productToRemove = action.payload;
+                const newState = currentState.filter(productName => productName !== productToRemove);
+                return newState;
+            }
+            return currentState;
+        }
+
+        const productsActionCreators = {
+            addNew(newProductName){
+                const action = { type : 'PRODUCT_ADD', payload : newProductName }
+                return action;
+            },
+            remove(productToRemove){
+                const action = { type : 'PRODUCT_REMOVE', payload : productToRemove };
+                return action
+            }
+        };
+
+        const store = Redux.createStore(productsReducer);
+        const productActionDispatchers = Redux.bindActionCreators(productsActionCreators, store.dispatch);
+
+
+        const Products = ({productList, addNew, remove}) => {
+            return(
+                <div>
+                    <h1>Products</h1>
+                    <hr />
+                    <label htmlFor="">Name :</label>
+                    <input type="text" name="" id="" />
+                    <button>Add New</button>
+                    <ul>
+                        <li>
+                            <span>Pen</span>
+                            <button>Remove</button>
+                        </li>
+                        <li>
+                            <span>Pen</span>
+                            <button>Remove</button>
+                        </li>
+                    </ul>
+                </div>
+            )
+        }
+
+        ReactDOM.render(<Products/>, document.getElementById('root'))
+
+    </script>
+</head>
+<body>
+    <div id="root">
+        
+    </div>
+</body>
+</html>
