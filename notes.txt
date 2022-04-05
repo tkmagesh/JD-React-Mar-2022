@@ -123,3 +123,11 @@ State (Data)
         * Any data that supports the "presentation" needs of the application
         * It is highly UNLIKELY that this data is needed in other parts of the application
         * Feel free to maintain this data in the component itself (either using setState / useState )
+
+
+Redux
+    1. Always treat the current state as immutable in the reducer
+    2. All the application logic  should in the action creator
+        No application logic should in the reducer
+        The reducer should be responsible ONLY for arriving at the "next" state in the store
+        
