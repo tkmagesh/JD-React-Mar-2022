@@ -42,28 +42,36 @@
 
 
         const Products = ({productList, addNew, remove}) => {
+            const [newProductName, setNewProductName] = React.useState('');
+            const productItems = productList.map((productName, idx) => (
+                 <li key={idx}>
+                    <span>{productName}</span>
+                    <button onClick={() => remove(productName)}>Remove</button>
+                </li>
+            ));
             return(
                 <div>
                     <h1>Products</h1>
                     <hr />
                     <label htmlFor="">Name :</label>
-                    <input type="text" name="" id="" />
-                    <button>Add New</button>
+                    <input type="text" onChange={evt => setNewProductName(evt.target.value)}/>
+                    <button onClick={ () => addNew(newProductName) }>Add New</button>
                     <ul>
-                        <li>
-                            <span>Pen</span>
-                            <button>Remove</button>
-                        </li>
-                        <li>
-                            <span>Pen</span>
-                            <button>Remove</button>
-                        </li>
+                       {productItems}
                     </ul>
                 </div>
             )
         }
 
-        ReactDOM.render(<Products/>, document.getElementById('root'))
+        function renderApp(){
+            const productList = store.getState();
+            ReactDOM.render(
+                <Products productList={productList} {...productActionDispatchers}/>
+                , document.getElementById('root')
+            )
+        }
+        renderApp();
+        store.subscribe(renderApp);
 
     </script>
 </head>
