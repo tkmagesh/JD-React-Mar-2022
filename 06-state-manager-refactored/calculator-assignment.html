@@ -8,6 +8,7 @@
     <script src="babel.min.js"></script>
     <script src="react.development.js"></script>
     <script src="react-dom.development.js"></script>
+    <script src="redux.js"></script>
     <style>
         .positive {
             color: green
@@ -32,25 +33,56 @@
             add(n1, n2)
                 => { type : 'ADD', payload : {n1, n2} }
      -->
+    
     <script type="text/babel">
-        const Calculator2 = () => {
+        function calculatorReducer(currentState = 0, action){
+            const {type, payload} = action
+            const {n1, n2} = payload || {};
+            if (type === 'ADD') return n1 + n2;
+            if (type === 'SUBTRACT') return n1 - n2;
+            if (type === 'MULTIPLY') return n1 * n2;
+            if (type === 'DIVIDE') return n1 / n2;
+            return currentState;
+        }
+
+        const store = Redux.createStore(calculatorReducer);
+
+        const calculatorActionCreators = {
+            add(n1, n2){
+                return { type : 'ADD', payload : {n1, n2}}
+            },
+            subtract(n1, n2) {
+                return { type: 'SUBTRACT', payload: { n1, n2 } }
+            },
+            multiply(n1, n2) {
+                return { type: 'MULTIPLY', payload: { n1, n2 } }
+            },
+            divide(n1, n2) {
+                return { type: 'DIVIDE', payload: { n1, n2 } }
+            },
+        };
+
+        const calculatorActionDispatchers = Redux.bindActionCreators(calculatorActionCreators, store.dispatch);
+
+
+        const Calculator2 = ({value, add, subtract, multiply, divide}) => {
             const [n1, setN1] = React.useState(0)
             const [n2, setN2] = React.useState(0)
-            const [result, setResult] = React.useState(0)
-            const [operation, setOperation] = React.useState('')
+            const [operation, setOperation] = React.useState('');
+
             const onBtnCalculateClick = () => {
                 switch (operation) {
                     case 'add':
-                        setResult(n1 + n2 );
+                        add(n1 , n2 );
                         break;
                     case 'subtract':
-                        setResult(n1 - n2 );
+                        subtract(n1 , n2 );
                         break;
                     case 'multiply':
-                        setResult(n1 * n2 );
+                        multiply(n1 , n2 );
                         break;
                     case 'divide':
-                        setResult(n1 / n2 );
+                        divide(n1 , n2 );
                         break;
                     default:
                         break;
@@ -71,31 +103,22 @@
                     <input type="number" onChange={evt => setN2(parseInt(evt.target.value) )} />
                     <button onClick={onBtnCalculateClick}>Calculate</button>
                    {/*  <div>{result}</div> */}
-                   <CalculatorResult data={result} />
+                   <CalculatorResult data={value} />
                 </div>
             )
         }
-        /* 
-        const CalculatorResult = (props) => {
-            const { data } = props;
-            return (
-                <div className={data >= 0 ? "positive" : "negative"}>{data}</div>
-            );
-        } 
-        */
-       /* 
-       const CalculatorResult = ({ data }) => {
-            return (
-                <div className={data >= 0 ? "positive" : "negative"}>{data}</div>
-            );
-        } 
-        */
         const CalculatorResult = ({ data }) => (
             <div className={data >= 0 ? "positive" : "negative"}>{data}</div>
         );
         
-            
-        ReactDOM.render(<Calculator2/>, document.getElementById('root'))
+        function renderCalculator(){
+            const value = store.getState()
+            ReactDOM.render(
+                <Calculator2 value={value} {...calculatorActionDispatchers}/>
+                , document.getElementById('root'))
+        }
+        renderCalculator();
+        store.subscribe(renderCalculator);
     </script>
 </head>
 <body>
