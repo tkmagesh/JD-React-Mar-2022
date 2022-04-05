@@ -9,9 +9,14 @@
     <script src="babel.min.js"></script>
     <script src="react.development.js"></script>
     <script src="react-dom.development.js"></script>
+    <!-- 
+        1. Initial version
+        2. Remove the dependency on the store from the component
+
+     -->
     <script type="text/babel">
         
-        function spinnerReducer(currentState = 50, action) {
+        function spinnerReducer(currentState = 0, action) {
             if (action.type === 'INCREMENT') return currentState + 1;
             if (action.type === 'DECREMENT') return currentState - 1;
             return currentState;
@@ -19,23 +24,32 @@
         
         const store = StateManager.createStore(spinnerReducer)
 
-        const Spinner = ({store}) => {
-            const inc_action = { type: 'INCREMENT' },
-                dec_action= { type : 'DECREMENT'};
-            const value = store.getState();
+        const Spinner = ({value, dispatch}) => {
             
+            const onBtnDecrementClick = () => {
+                const dec_action = { type: 'DECREMENT' };
+                dispatch(dec_action)
+            };
+
+            const onBtnIncrementClick = () => {
+                const inc_action = { type: 'INCREMENT' };
+                dispatch(inc_action)
+            }
             return(
                 <div>
                     <h3>Spinner</h3>
-                    <button onClick={() => store.dispatch(dec_action)}>Decrement</button>
+                    <button onClick={onBtnDecrementClick}>Decrement</button>
                     <span> [ {value} ] </span>
-                    <button onClick={() => store.dispatch(inc_action)}>Increment</button>
+                    <button onClick={onBtnIncrementClick}>Increment</button>
                 </div>
             )
         }
 
         function renderApp(){
-            ReactDOM.render(<Spinner store={store}/>, document.getElementById('root'))
+            const value = store.getState();
+            ReactDOM.render(
+                <Spinner value={value} dispatch={store.dispatch}/>
+            , document.getElementById('root'))
         }
         renderApp()
         store.subscribe(renderApp);
