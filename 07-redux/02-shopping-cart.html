@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <style>
+        body{
+            margin-left: 50px;
+        }
+        .total{
+            font-size: 20pt;
+        }
+        td, th{
+            padding-right: 10px;
+        }
+        div{
+            margin-bottom: 10px;
+        }
+
+    </style>
+    <script type="text/babel">
+        const products = [
+            {id : 'P-101', name : 'Pen', cost : 10},
+            { id: 'P-102', name: 'Pencil', cost: 5 },
+            { id: 'P-103', name: 'Marker', cost: 50 },
+            { id: 'P-104', name: 'Scribble Pad', cost: 30 },
+            { id: 'P-105', name: 'Mouse', cost: 500 },
+        ];
+
+    </script>
+</head>
+<body>
+    <div id="root">
+        <h1>Shopping Cart</h1>
+        <hr>
+        <div>
+            <label for="">Product :</label>
+            <select name="" id="">
+                <option value=""></option>
+                <option value=""></option>
+                <option value=""></option>
+            </select>
+            <label for="">Cost : </label>
+            <span>[cost]</span>
+            <label for="">Units :</label>
+            <input type="number" name="" id="">
+            <button>Add</button>
+        </div>
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th>Product Name</th>
+                        <th>Cost</th>
+                        <th>Units</th>
+                        <th>Unit Cost</th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>Pen</td>
+                        <td>5</td>
+                        <td>10</td>
+                        <td>50</td>
+                        <td><button>Remove</button></td>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="total">[Total Cost]</div>
+    </div>
+</body>
+</html>
