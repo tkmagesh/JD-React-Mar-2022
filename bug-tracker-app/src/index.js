@@ -5,38 +5,50 @@ import reportWebVitals from './reportWebVitals';
 
 import Bugs from './bugs'
 import Projects from './projects'
+import Home from './home';
+
 import store from './store';
 
 import { Provider } from 'react-redux';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 
-import axios from 'axios';
 
-/* 
-axios
-  .get('http://localhost:3030/bugs')
-  .then(function(response){
-    return response.data;
-  })
-  .then(function(bugs){
-    console.table(bugs);
-  }); 
-*/
-
-async function getBugs(){
-  const response = await axios.get('http://localhost:3030/bugs')
-  const bugs = response.data
-  console.table(bugs);
-}
-
-getBugs()
     
 ReactDOM.render(
-    <React.Fragment>
-        <Provider store={store}>
-          <Projects />
-          <Bugs/>
-        </Provider>
-    </React.Fragment>
+  <Provider store={store}>
+    <Router>
+      <div>
+          <div>
+            <span>
+              [ <Link to="/">Home</Link> ]
+            </span>
+            <span>
+              [ <Link to="/projects">Projects</Link> ]
+            </span>
+            <span>
+              [ <Link to="/bugs">Bugs</Link> ]
+            </span>
+          
+        </div>
+        <Switch>
+          <Route path="/projects">
+            <Projects />
+          </Route>
+          <Route path="/bugs">
+            <Bugs />
+          </Route>
+          <Route path="/">
+            <Home />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
+    </Provider>        
     , document.getElementById('root')
 )
 

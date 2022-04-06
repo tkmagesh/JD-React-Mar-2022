@@ -1,4 +1,4 @@
-import {Fragment } from 'react';
+import {Fragment, useEffect } from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import { bindActionCreators } from 'redux';
 import BugEdit from './components/bugEdit';
@@ -21,11 +21,16 @@ const Bugs = () => {
     const { addNew, toggle, remove, removeClosed } = bugActionDispatchers; 
     */
 
+    
+
     const { addNew, toggle, remove, removeClosed, load } = bindActionCreators(bugActionCreators, useDispatch());; 
+    useEffect(function(){
+        load()
+    }, []);
+
     return(
         <Fragment>
             <h3>Bugs</h3>
-            <button onClick={load}>Load Bugs</button>
             <BugStats count={bugs.length} closedCount={closedCount}/>
             <BugSort/>
             <BugEdit addNew={addNew} projects={projects} />
