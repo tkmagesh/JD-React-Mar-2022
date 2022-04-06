@@ -45,13 +45,25 @@
     <script src="react-dom.development.js"></script>
     <script src="redux.js"></script>
     <script type="text/babel">
-        const initialState = [
-           /*  { id: 1, name: 'Bug - 1', isClosed: false, createdAt: new Date()},
-            { id: 2, name: 'Bug - 2', isClosed: true, createdAt: new Date() },
-            { id: 3, name: 'Bug - 3', isClosed: false, createdAt: new Date() }, */
-        ];
+       
+        const Products = () => {
+            return(
+                 <React.Fragment>
+                    <h3>Projects</h3>
+                    <hr />
+                    <label htmlFor="">Project Name :</label>
+                    <input type="text" name="" id=""/>
+                    <button>Add Project</button>
+                    <ul>
+                        <li>Expense Manager</li>
+                        <li>Bug Tracker</li>
+                    </ul>
+                </React.Fragment>
+            )
+        }
 
-        function bugsReducer(currentState = initialState, action){
+
+        function bugsReducer(currentState = [], action){
             switch (action.type) {
                 case 'BUG_ADD':
                     return [...currentState, action.payload]
@@ -115,6 +127,7 @@
                     >
                         {bug.name}
                     </span>
+                    <small> [ project-name ] </small>
                     <div className="datetime">[{bug.createdAt.toString()}]</div>
                     <button onClick={() => remove(bug)}>Remove</button>
                 </li>
@@ -142,6 +155,11 @@
                     <section className="edit">
                         <label htmlFor="">Bug Name :</label>
                         <input type="text" onChange={ evt => setNewBugName(evt.target.value)}/>
+                        <label htmlFor="">Project : </label>
+                        <select name="" id="">
+                            <option value=""></option>
+                            <option value=""></option>
+                        </select>
                         <button onClick={() => addNew(newBugName)}>Add New</button>
                     </section>
                     <section className="list">
@@ -162,7 +180,10 @@
         function renderApp(){
             const bugList = store.getState();
             ReactDOM.render(
-                <Bugs list={bugList} {...bugActionDispatchers}/>
+                <React.Fragment>
+                    <Products/>
+                    <Bugs list={bugList} {...bugActionDispatchers}/>
+                </React.Fragment>
                 , document.getElementById('root')
             )
         }
@@ -175,7 +196,7 @@
     <h1>Bug Tracker</h1>
     <hr>
     <div id="root">
-       
+     
     </div>
 </body>
 </html>
