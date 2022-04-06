@@ -4,12 +4,34 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-ReactDOM.render(
+import { bindActionCreators } from 'redux';
+import * as bugActionCreators from './bugs/actions'
+import * as projectActionCreators from './projects/actions'
+import Bugs from './bugs'
+import Projects from './projects'
+import store from './store';
+
+const bugActionDispatchers = bindActionCreators(bugActionCreators, store.dispatch);
+const projectActionDispatchers = bindActionCreators(projectActionCreators, store.dispatch);
+function renderApp(){
+    const { bugs : bugList, projects : projectsList } = store.getState();
+    ReactDOM.render(
+        <React.Fragment>
+            <Projects list={projectsList} {...projectActionDispatchers}/>
+            <Bugs list={bugList} projects={projectsList} {...bugActionDispatchers}/>
+        </React.Fragment>
+        , document.getElementById('root')
+    )
+}
+renderApp();
+store.subscribe(renderApp);
+
+/* ReactDOM.render(
   <React.StrictMode>
     <App />
   </React.StrictMode>,
   document.getElementById('root')
-);
+); */
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

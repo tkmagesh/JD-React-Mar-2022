@@ -142,3 +142,22 @@ ES6 Module
     To make an entity public, we need to export it
     To use an entity defined in another file, we have to import it
         
+
+Components
+reducers
+actions
+store
+
+/bugs
+    /components
+    /reducers
+    /actions
+    index.js (Container Component)
+/projects
+    /components
+    /reducers
+    /actions
+    index.js (Container Component)
+/store
+    index.js (Store)
+

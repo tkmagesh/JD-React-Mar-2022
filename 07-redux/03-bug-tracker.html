@@ -135,9 +135,7 @@
 
         const store = Redux.createStore(rootReducer);
 
-        const bugActionDispatchers = Redux.bindActionCreators(bugActionCreators, store.dispatch);
-
-        const projectActionDispatchers = Redux.bindActionCreators(projectActionCreators, store.dispatch);
+        
 
         const Bugs = ({list, projects, addNew, toggle, remove, removeClosed}) => {
 
@@ -201,6 +199,10 @@
                 </React.Fragment>
             )
         }
+
+        const bugActionDispatchers = Redux.bindActionCreators(bugActionCreators, store.dispatch);
+
+        const projectActionDispatchers = Redux.bindActionCreators(projectActionCreators, store.dispatch);
 
         function renderApp(){
             
