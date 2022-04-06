@@ -130,4 +130,15 @@ Redux
     2. All the application logic  should in the action creator
         No application logic should in the reducer
         The reducer should be responsible ONLY for arriving at the "next" state in the store
+
+To install yarn
+    npm install yarn -g
+
+To start the application
+    yarn start
+
+ES6 Module
+    Everything defined in a js/jsx file is considered private by default
+    To make an entity public, we need to export it
+    To use an entity defined in another file, we have to import it
         
