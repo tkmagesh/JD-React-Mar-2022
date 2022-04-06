@@ -21,10 +21,11 @@ const Bugs = () => {
     const { addNew, toggle, remove, removeClosed } = bugActionDispatchers; 
     */
 
-    const { addNew, toggle, remove, removeClosed } = bindActionCreators(bugActionCreators, useDispatch());; 
+    const { addNew, toggle, remove, removeClosed, load } = bindActionCreators(bugActionCreators, useDispatch());; 
     return(
         <Fragment>
             <h3>Bugs</h3>
+            <button onClick={load}>Load Bugs</button>
             <BugStats count={bugs.length} closedCount={closedCount}/>
             <BugSort/>
             <BugEdit addNew={addNew} projects={projects} />

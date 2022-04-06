@@ -8,6 +8,27 @@ import Projects from './projects'
 import store from './store';
 
 import { Provider } from 'react-redux';
+
+import axios from 'axios';
+
+/* 
+axios
+  .get('http://localhost:3030/bugs')
+  .then(function(response){
+    return response.data;
+  })
+  .then(function(bugs){
+    console.table(bugs);
+  }); 
+*/
+
+async function getBugs(){
+  const response = await axios.get('http://localhost:3030/bugs')
+  const bugs = response.data
+  console.table(bugs);
+}
+
+getBugs()
     
 ReactDOM.render(
     <React.Fragment>

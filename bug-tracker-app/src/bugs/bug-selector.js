@@ -3,7 +3,7 @@ const bugSelector =  storeState => {
     const closedCount = bugs.reduce((result, bug) => bug.isClosed ? result + 1 : result, 0);
     const bugsWithProject = bugs.map(bug => ({
         ...bug,
-        projectName : projects.find(project => project.id === bug.projectId).name
+        projectName : 'Dummy project' //projects.find(project => project.id === bug.projectId).name 
     }))
     return { bugs : bugsWithProject , projects, closedCount }
 };
