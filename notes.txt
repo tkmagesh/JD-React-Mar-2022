@@ -180,3 +180,7 @@ Presentation Components / Dumb Components
     They receive data and action dispatchers from the container components
     They are the only components that interact with the user
     
+Redux Middleware
+    Any logic that has to be applied across actions
+
+    
