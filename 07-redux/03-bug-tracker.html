@@ -45,18 +45,34 @@
     <script src="react-dom.development.js"></script>
     <script src="redux.js"></script>
     <script type="text/babel">
-       
-        const Products = () => {
+        
+        let _currentProductId = 0;
+        function projectsReducer(currentState = [], action){
+           if (action.type === 'PROJECT_ADD'){
+               return [...currentState, action.payload];
+           }
+           return currentState
+        }
+
+        const projectActionCreators = {
+             addProject(projectName){
+                const newProject = { id: ++_currentProductId, name: projectName }
+                const action = { type: 'PROJECT_ADD', payload: newProject };
+                return action
+            }
+        }
+
+        const Products = ({list, addProject}) => {
+            const [newProjectName, setNewProjectName] = React.useState('');
             return(
                  <React.Fragment>
                     <h3>Projects</h3>
                     <hr />
                     <label htmlFor="">Project Name :</label>
-                    <input type="text" name="" id=""/>
-                    <button>Add Project</button>
+                    <input type="text" onChange={ evt => setNewProjectName(evt.target.value)}/>
+                    <button onClick={() => addProject(newProjectName)}>Add Project</button>
                     <ul>
-                        <li>Expense Manager</li>
-                        <li>Bug Tracker</li>
+                       {list.map(project => (<li key={project.id}>{project.name}</li>))}
                     </ul>
                 </React.Fragment>
             )
@@ -85,12 +101,13 @@
         //TO BE FIXED:
         let _currentBugId = 0
         const bugActionCreators = {
-            addNew(bugName){
+            addNew(bugName, projectId){
                 const newBug = {
                     id : ++_currentBugId,
                     name : bugName,
                     isClosed : false,
-                    createdAt : new Date()
+                    createdAt : new Date(),
+                    projectId : parseInt(projectId)
                 }
                 const action = { type : 'BUG_ADD', payload : newBug };
                 return action;
@@ -111,14 +128,22 @@
             }
         };
 
-        const store = Redux.createStore(bugsReducer);
+        const rootReducer = Redux.combineReducers({
+            projects : projectsReducer,
+            bugs : bugsReducer
+        });
+
+        const store = Redux.createStore(rootReducer);
 
         const bugActionDispatchers = Redux.bindActionCreators(bugActionCreators, store.dispatch);
 
-        const Bugs = ({list, addNew, toggle, remove, removeClosed}) => {
+        const projectActionDispatchers = Redux.bindActionCreators(projectActionCreators, store.dispatch);
+
+        const Bugs = ({list, projects, addNew, toggle, remove, removeClosed}) => {
 
             const [newBugName, setNewBugName] = React.useState('')
-            
+            const [selectedProject, setSelectedProject] = React.useState(0);
+
             const bugItems = list.map((bug,idx) => (
                 <li key={idx}>
                     <span 
@@ -127,7 +152,7 @@
                     >
                         {bug.name}
                     </span>
-                    <small> [ project-name ] </small>
+                    <small> [ {projects.find(project => project.id === bug.projectId).name} ] </small>
                     <div className="datetime">[{bug.createdAt.toString()}]</div>
                     <button onClick={() => remove(bug)}>Remove</button>
                 </li>
@@ -156,11 +181,11 @@
                         <label htmlFor="">Bug Name :</label>
                         <input type="text" onChange={ evt => setNewBugName(evt.target.value)}/>
                         <label htmlFor="">Project : </label>
-                        <select name="" id="">
-                            <option value=""></option>
-                            <option value=""></option>
+                        <select onChange={evt => setSelectedProject(evt.target.value)}>
+                            <option value="">--Select--</option>
+                            {projects.map(project => (<option key={project.id} value={project.id}>{project.name}</option>))}
                         </select>
-                        <button onClick={() => addNew(newBugName)}>Add New</button>
+                        <button onClick={() => addNew(newBugName, selectedProject)}>Add New</button>
                     </section>
                     <section className="list">
                         <ul>
@@ -178,11 +203,13 @@
         }
 
         function renderApp(){
-            const bugList = store.getState();
+            
+            const { bugs : bugList, projects : projectsList } = store.getState();
+
             ReactDOM.render(
                 <React.Fragment>
-                    <Products/>
-                    <Bugs list={bugList} {...bugActionDispatchers}/>
+                    <Products list={projectsList} {...projectActionDispatchers}/>
+                    <Bugs list={bugList} projects={projectsList} {...bugActionDispatchers}/>
                 </React.Fragment>
                 , document.getElementById('root')
             )
