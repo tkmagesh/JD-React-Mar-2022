@@ -1,59 +1,34 @@
-import { useState, Fragment } from 'react';
+import {Fragment } from 'react';
+import {useSelector, useDispatch} from 'react-redux';
+import { bindActionCreators } from 'redux';
+import BugEdit from './components/bugEdit';
+import BugSort from './components/bugSort';
+import BugStats from './components/bugStats';
+import BugList from './components/bugList';
 
-const Bugs = ({list, projects, addNew, toggle, remove, removeClosed}) => {
+import * as bugActionCreators from './actions';
+import bugSelector from './bug-selector';
 
-    const [newBugName, setNewBugName] = useState('')
-    const [selectedProject, setSelectedProject] = useState(0);
+/* interface with the redux  */
+const Bugs = () => {
+    //extracting the state from the store
+    const {bugs, projects, closedCount} = useSelector(bugSelector)
 
-    const bugItems = list.map((bug,idx) => (
-        <li key={idx}>
-            <span 
-                className={"bugname " + (bug.isClosed ? 'closed' : '')}
-                onClick={() => toggle(bug)}
-            >
-                {bug.name}
-            </span>
-            <small> [ {projects.find(project => project.id === bug.projectId).name} ] </small>
-            <div className="datetime">[{bug.createdAt.toString()}]</div>
-            <button onClick={() => remove(bug)}>Remove</button>
-        </li>
-    ));
-    
-    const closedCount = list.reduce((result, bug) => bug.isClosed ? result + 1  : result, 0);
+    //creating action dispatchers
+   /* 
+    const dispatch = useDispatch();
+    const bugActionDispatchers = bindActionCreators(bugActionCreators, dispatch);
+    const { addNew, toggle, remove, removeClosed } = bugActionDispatchers; 
+    */
 
+    const { addNew, toggle, remove, removeClosed } = bindActionCreators(bugActionCreators, useDispatch());; 
     return(
         <Fragment>
             <h3>Bugs</h3>
-            <section className="stats">
-                <span className="closed">{closedCount}</span>
-                <span> / </span>
-                <span>{list.length}</span>
-            </section>
-            <section className="sort">
-                <label htmlFor="">Order By :</label>
-                <select name="" id="">
-                    <option value=""></option>
-                    <option value=""></option>
-                </select>
-                <label htmlFor="">Descending ?:</label>
-                <input type="checkbox" name="" id=""/>
-            </section>
-            <section className="edit">
-                <label htmlFor="">Bug Name :</label>
-                <input type="text" onChange={ evt => setNewBugName(evt.target.value)}/>
-                <label htmlFor="">Project : </label>
-                <select onChange={evt => setSelectedProject(evt.target.value)}>
-                    <option value="">--Select--</option>
-                    {projects.map(project => (<option key={project.id} value={project.id}>{project.name}</option>))}
-                </select>
-                <button onClick={() => addNew(newBugName, selectedProject)}>Add New</button>
-            </section>
-            <section className="list">
-                <ul>
-                    {bugItems}
-                </ul>
-                <button onClick={() => removeClosed(list)}>Remove Closed</button>
-            </section>
+            <BugStats count={bugs.length} closedCount={closedCount}/>
+            <BugSort/>
+            <BugEdit addNew={addNew} projects={projects} />
+            <BugList {...{bugs, toggle, remove, removeClosed}}/>
         </Fragment>
     )
 }

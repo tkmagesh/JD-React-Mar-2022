@@ -161,3 +161,22 @@ store
 /store
     index.js (Store)
 
+react-redux
+
+    to install 
+        yarn add react-redux
+
+    adapter that makes the react components interact with the redux
+        useDispatch() => dispatch
+        useSelector() => state
+
+Container Components / Smart Components
+    Components that interface with the Redux infrastructure (for state & dispatch)
+    DO NOT interact with the user
+    It is advicable to use fewer container components
+
+Presentation Components / Dumb Components
+    DO NOT interface with redux
+    They receive data and action dispatchers from the container components
+    They are the only components that interact with the user
+    
