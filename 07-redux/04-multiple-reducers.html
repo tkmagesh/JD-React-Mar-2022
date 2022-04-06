@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <style>
+        body{
+            margin-left: 50px;
+        }
+        .total{
+            font-size: 20pt;
+        }
+        td, th{
+            padding-right: 10px;
+        }
+        div{
+            margin-bottom: 10px;
+        }
+
+    </style>
+    <script src="babel.min.js"></script>
+    <script src="react.development.js"></script>
+    <script src="react-dom.development.js"></script>
+    <script src="redux.js"></script>
+    <script type="text/babel">
+
+        const productsData = [
+            { id: 'P-101', name : 'Pen', cost : 10},
+            { id: 'P-102', name: 'Pencil', cost: 5 },
+            { id: 'P-103', name: 'Marker', cost: 50 },
+            { id: 'P-104', name: 'Scribble Pad', cost: 30 },
+            { id: 'P-105', name: 'Mouse', cost: 500 },
+        ];
+
+        function productsReducer(currentState = productsData){
+            return currentState;
+        }
+
+        function cartReducer(currentState = { lineItems : [], totalCost : 0}, action){
+            if (action.type === 'CART_ADD_PRODUCT'){
+                const productLineItem = action.payload;
+                let { lineItems, totalCost } = currentState;
+                const existingLineItem = lineItems.find(lineItem => lineItem.id === productLineItem.id);
+                if (existingLineItem){
+                    existingLineItem.units += productLineItem.units
+                    existingLineItem.unitCost += productLineItem.unitCost
+                    totalCost += productLineItem.unitCost
+                } else {
+                    lineItems = [... lineItems, productLineItem];
+                    totalCost += productLineItem.unitCost
+                }
+                return { lineItems : lineItems, totalCost : totalCost }
+            }
+            if (action.type === 'CART_REMOVE_PRODUCT') {
+                const productLineItem = action.payload;
+                let { lineItems, totalCost } = currentState;
+                const existingLineItem = lineItems.find(lineItem => lineItem.id === productLineItem.id);
+                if (existingLineItem) {
+                    lineItems = lineItems.filter(lineItem => lineItem.id !== productLineItem.id)
+                    totalCost -= existingLineItem.unitCost
+                } 
+                return { lineItems: lineItems, totalCost: totalCost }
+            }
+            return currentState;
+        }
+
+        const cartActionCreators = {
+            addProduct(product, units){
+                const productLineItem = { ...product, units, unitCost : product.cost * units }
+                const action = { type : 'CART_ADD_PRODUCT', payload: productLineItem }
+                console.log(action)
+                return action;
+            },
+            removeProduct(product){
+                const action = { type: 'CART_REMOVE_PRODUCT', payload: product }
+                return action;
+            }
+        }
+
+        const rootReducer = Redux.combineReducers({
+            products : productsReducer,
+            cart : cartReducer
+        });
+        /* 
+            storeState is {
+                products : data from productsReducer,
+                cart : data from the cartReducer
+            }
+        */
+
+        const store = Redux.createStore(rootReducer);
+
+        console.log(store.getState())
+
+        const cartActionDispatchers = Redux.bindActionCreators(cartActionCreators, store.dispatch)
+        
+        const ShoppingCart = ({products, lineItems, totalCost, addProduct, removeProduct}) => {
+
+            const [selectedProduct, setSelectedProduct] = React.useState({})
+            const [productUnits, setProductUnits] = React.useState(0);
+
+            const onProductSelectionChange = (evt) => {
+                const product = products.find(product => product.id === evt.target.value)
+                setSelectedProduct(product);
+            }
+
+            return(
+                <React.Fragment>
+                    <h1>Shopping Cart</h1>
+                    <hr/>
+                    <div>
+                        <label htmlFor="">Product :</label>
+                        <select onChange={onProductSelectionChange}>
+                            <option value="">---Select---</option>
+                            {products.map(product => (<option value={product.id} key={product.id}>{product.name}</option>))}
+                        </select>
+                        <label htmlFor="">Cost : </label>
+                        <span> {selectedProduct.cost} </span>
+                        <label htmlFor="">Units :</label>
+                        <input type="number" onChange={evt => setProductUnits(parseInt(evt.target.value))} />
+                        <button onClick={() => addProduct(selectedProduct, productUnits)}>Add</button>
+                    </div>
+                    <div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>S.No</th>
+                                    <th>Product Name</th>
+                                    <th>Cost</th>
+                                    <th>Units</th>
+                                    <th>Unit Cost</th>
+                                    <th></th>
+                                </tr>
+                                { lineItems.map(lineItem => (
+                                    <tr key={lineItem.id}>
+                                        <td>{lineItem.id}</td>
+                                        <td>{lineItem.name}</td>
+                                        <td>{lineItem.cost}</td>
+                                        <td>{lineItem.units}</td>
+                                        <td>{lineItem.unitCost}</td>
+                                        <td><button onClick={() => removeProduct(lineItem)}>Remove</button></td>
+                                    </tr>
+                                  ))
+                                }
+                            </thead>
+                        </table>
+                    </div>
+                    <div className="total">{totalCost}</div>
+                </React.Fragment>
+            )
+        }
+
+        function renderApp(){
+            const storeState = store.getState()
+            const {lineItems, totalCost} = storeState.cart;
+            const products = storeState.products;
+            ReactDOM.render(
+                <ShoppingCart 
+                    products={products} 
+                    lineItems={lineItems}
+                    totalCost={totalCost}
+                    {...cartActionDispatchers}
+                />
+                , document.getElementById('root')
+            )
+        }
+        renderApp()
+        store.subscribe(renderApp);
+    </script>
+</head>
+<body>
+    <div id="root">
+       
+    </div>
+</body>
+</html>
