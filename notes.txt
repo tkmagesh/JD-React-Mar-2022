@@ -190,4 +190,31 @@ Asynchronous Operations
 To run json-server
     npx json-server db.json -p 3030
 
+
+Testing
+    jest (unit testing framework)
+        APIs for organizing the tests
+            test
+            beforeEach
+            afterEach
+        APIs for performing assertion
+            expect
+            matchers
+                toBe
+                toEqual
+                toBeNull
+                toBeTruthy
+                toBeFalsy
+                toBeDefined
+                toBeUndefined
+        APIs for mocking
+
+    testing-library
+        render the component
+        Access the DOM
+        Simulate user actions
+
+    msw
+        mocking server communication
+
     
